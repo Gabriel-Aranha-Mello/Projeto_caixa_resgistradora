@@ -1,0 +1,161 @@
+import pandas as pd
+
+nuns = 123456
+prod_1 = []
+preco_1 = []
+carrinho_de_compras = []
+rs = []
+
+
+def check_op():
+
+    total_car = 0
+    while True:
+
+        data = {'Produtos': [*prod_1],
+                'Preço': [*preco_1],
+                '': [*rs]}
+
+        frame = pd.DataFrame(data)
+        frame.index.name = 'id'
+
+        print('-' * 50)
+
+        op = int(input('\033[01mEscolha uma das opções acima:\033[m '))
+
+        if op == 1:
+
+            if len(carrinho_de_compras) == 0:
+                print('Nenhum item encontrado em seu carrinho de compras.\n'
+                      'Tente adicionar um item a ele!  ')
+
+            else:
+
+                print('-' * 50)
+                print(f'Total do carrinho: {total_car:.2f}')
+                print()
+                dc = str(input('Escolha um metódo de pagamento\n'
+                               '>>> 1| Dinheiro\n'
+                               '>>> 2| Cartão\n'
+                               '\033[01mEscolha uma das opções acima:\033[m '))
+
+                if dc not in '12':
+
+                    while dc not in 12:
+                        print('Escolha um metódo de pagamento valido!!!')
+
+                else:
+                    print('\033[32mCompra finalizada com Sucesso!!Volte sempre!')
+                    break
+
+        if op == 2:
+
+            if len(carrinho_de_compras) == 0:
+                print('Nenhum item encontrado em seu carrinho de compras.\n'
+                      'Tente adicionar um item a ele!  ')
+
+            elif len(carrinho_de_compras) == 2:
+
+                print(f'Produto: {carrinho_de_compras[0]}, Preço: {carrinho_de_compras[1]}')
+                total_car += carrinho_de_compras[1]
+
+            elif len(carrinho_de_compras) > 3:
+                for x in range(len(carrinho_de_compras)):
+
+                    if x % 2 == 0:
+
+                        print(f'Produto: {carrinho_de_compras[x]}', end=' ')
+                    if x % 2 != 0:
+
+                        print(f'Preço: {carrinho_de_compras[x]} R$')
+                        total_car += int(carrinho_de_compras[x])
+            print(f'\033[01mTotal: {total_car:.2f} R$\033[m')
+
+        elif op == 3:
+
+            if len(prod_1) == 0:
+                print('Nenhum item no catálogo!\n'
+                      'Digite \033[01m4\033[m Para adicionar um novo produto')
+
+            else:
+
+                print('-' * 50)
+                print(f'{"Catálogo de produtos":^50}')
+                print('-' * 50)
+                print(frame)
+                print('-' * 50)
+
+                while True:
+                    print('Digite "999" a qualquer momento para sair')
+                    car = int(input('Escolha o id do próduto que quer adicionar ao carrinho: '))
+
+                    if car == 999:
+                        print('\033[31mNenhum item foi adionado ao seu carrinho de compras.\033[m')
+                        break
+
+                    try:
+                        carrinho_de_compras.append(prod_1[car])
+                        carrinho_de_compras.append(preco_1[car])
+                    except IndexError:
+
+                        print('\033[31mId do próduto inválido. Tente outro Id\033[m')
+                    else:
+
+                        carrinho_de_compras.append(prod_1[car])
+                        carrinho_de_compras.append(preco_1[car])
+                        print('\033[32mItem adicionado ao carrinho de compras.\033[m')
+
+        elif op == 4:
+
+            while True:
+                print('Digite "\033[01m999\033[m" a qualquer momento para sair')
+                prod = str(input('Digite o nome do produto: '))
+
+                if prod == '999':
+                    print('\033[31mNenhum item foi adiconado ao catálogo.\033[m')
+                    break
+
+                preco = str(input('Digite quanto vai custar o produto: '))
+
+                try:
+                    int(preco)
+
+                except ValueError:
+                    print('\033[31mO Este caracetere é ilegal (Apenas números são permitidos)\033[m\n'
+                          'OBS: Não use \033[01m","\033[m use \033[01m"."\033[m')
+
+                else:
+
+                    if preco == '999':
+                        print('\033[31mNenhum item foi adiconado ao catálogo.\033[m')
+                        break
+
+                    prod_1.append(prod)
+                    preco_1.append(preco)
+                    print('\033[32mItem adiconado com sucesso!\033[m')
+                    rs.append('R$')
+
+        elif op == 5:
+            print('-' * 50)
+            print('>>> 1| Finalizar compra\n'
+                  '>>> 2| Vizualizar carrinho\n'
+                  '>>> 3| Comprar produtos\n'
+                  '>>> 4| Adicionar produtos\n'
+                  '>>> 5| Visualizar opções\n'
+                  '>>> 6| Sair')
+
+        elif op == 6:
+            break
+
+
+print('-' * 50)
+print(f'{"Super Mercado":^50}')
+print('-' * 50)
+print('>>> 1| Finalizar compra\n'
+      '>>> 2| Vizualizar carrinho\n'
+      '>>> 3| Comprar produtos\n'
+      '>>> 4| Adicionar produtos\n'
+      '>>> 5| Visualizar opções\n'
+      '>>> 6| Sair')
+
+check_op()
